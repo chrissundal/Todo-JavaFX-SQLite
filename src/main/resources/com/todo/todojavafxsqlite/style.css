@@ -1,0 +1,65 @@
+﻿/* style.css */
+
+.root {
+    -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+.button {
+    -fx-background-color: #3A3A3A;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 10 20 10 20;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+}
+
+.button:hover {
+    -fx-background-color: #5A5A5A;
+}
+
+.text-field, .choice-box, .date-picker {
+    -fx-background-color: #f0f0f0;
+    -fx-border-color: #ddd;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 5;
+    -fx-font-size: 14px;
+}
+
+.text-field:focused, .choice-box:focused, .date-picker:focused {
+    -fx-border-color: #3A3A3A;
+}
+
+.table-view {
+    -fx-table-cell-border-color: transparent;
+    -fx-padding: 10;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #3A3A3A;
+}
+
+.table-view .column-header, .table-view .column-header * {
+    -fx-background-color: #3A3A3A;
+    -fx-text-fill: white;
+}
+
+.table-view .cell {
+    -fx-alignment: center;
+    -fx-text-fill: #333;
+    -fx-font-size: 14px;
+}
+
+.hbox, .vbox {
+    -fx-spacing: 10;
+    -fx-padding: 10;
+}
+
+.hbox > .button {
+    -fx-padding: 10;
+}
+
+
