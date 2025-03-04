@@ -1,23 +1,21 @@
 package com.todo.todojavafxsqlite;
 import javafx.beans.property.*;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.chrono.ChronoLocalDate;
-import java.util.Date;
 
 public class Task {
-    private IntegerProperty id;
-    private StringProperty description;
-    private StringProperty date;
-    private LocalDate dateLast;
+    private final String id;
+    private final StringProperty description;
+    private final StringProperty date;
+    private String dateLast;
     private Integer streak;
-    private IntegerProperty repeat;
-    private BooleanProperty mainTask;
-    private IntegerProperty repeatTimes;
-    private Task nextTask;
+    private final IntegerProperty repeat;
+    private final BooleanProperty mainTask;
+    private final IntegerProperty repeatTimes;
+    private Boolean done;
+    private final String parentId;
 
-    public Task(int id, String description, String date, Integer streak, LocalDate dateLast, Integer repeat, Boolean mainTask, Integer repeatTimes) {
-        this.id = new SimpleIntegerProperty(id);
+    public Task(String id, String description, String date, Integer streak, String dateLast, Integer repeat, Boolean mainTask, Integer repeatTimes, Boolean done, String parentId) {
+        this.id = id;
         this.description = new SimpleStringProperty(description);
         this.date = new SimpleStringProperty(date);
         this.streak = streak;
@@ -25,10 +23,12 @@ public class Task {
         this.repeat = new SimpleIntegerProperty(repeat);
         this.mainTask = new SimpleBooleanProperty(mainTask);
         this.repeatTimes = new SimpleIntegerProperty(repeatTimes);
+        this.done = done;
+        this.parentId = parentId;
     }
 
-    public IntegerProperty idProperty() {
-        return id;
+    public String getParentId() {
+        return parentId;
     }
     public StringProperty descriptionProperty() {
         return description;
@@ -46,7 +46,7 @@ public class Task {
         } else {
             streak += 1;
         }
-        dateLast = dateNow;
+        dateLast = dateNow.toString();
     }
 
     public void printInfo() {
@@ -71,27 +71,28 @@ public class Task {
     public Integer getRepeatTimes() {
         return repeatTimes.get();
     }
-    public Task getNextTask() {
-        return nextTask;
-    }
-
-    public void setNextTask(Task nextTask) {
-        this.nextTask = nextTask;
-    }
 
     public Integer getStreakValue() {
         return streak;
     }
 
-    public int getId() {
-        return id.get();
+    public String getId() {
+        return id;
     }
 
-    public ChronoLocalDate getDateLast() {
+    public String getDateLast() {
         return dateLast;
     }
 
     public void resetStreak() {
         streak = 0;
+    }
+
+    public boolean getDone() {
+        return done;
+    }
+
+    public void setDone(boolean bool) {
+        done = bool;
     }
 }

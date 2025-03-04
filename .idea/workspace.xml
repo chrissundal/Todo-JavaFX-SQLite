@@ -4,11 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="285b2e60-314b-4f1b-990e-56f200f12406" name="Changes" comment="made a simple layout">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/todo/todojavafxsqlite/style.css" afterDir="false" />
+    <list default="true" id="285b2e60-314b-4f1b-990e-56f200f12406" name="Changes" comment="lots of updates">
+      <change afterPath="$PROJECT_DIR$/.idea/DatabaseToolSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/aws.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/todo/todojavafxsqlite/ManipulateTasks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todo/todojavafxsqlite/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todo/todojavafxsqlite/App.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/todo/todojavafxsqlite/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todo/todojavafxsqlite/Controller.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/todo/todojavafxsqlite/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todo/todojavafxsqlite/Task.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/todo/todojavafxsqlite/view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/todo/todojavafxsqlite/view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -54,19 +59,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.App.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;com.codeium.enabled&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.4827586&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.App.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "com.codeium.enabled": "true",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.4827586",
+    "settings.editor.selected.configurable": "com.database.db.setting.configurable"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\chris\OneDrive\Documents\GitHub\Todo-JavaFX-SQLite\src\main\resources\com\todo\todojavafxsqlite" />
@@ -88,11 +96,19 @@
       <option name="presentableId" value="LOCAL−00001" />
       <updated>1740917404530</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL−00002" summary="lots of updates">
+      <option name="closed" value="true" />
+      <created>1741033545265</created>
+      <option name="number" value="LOCAL−00002" />
+      <option name="presentableId" value="LOCAL−00002" />
+      <updated>1741033545265</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="made a simple layout" />
-    <option name="LAST_COMMIT_MESSAGE" value="made a simple layout" />
+    <MESSAGE value="lots of updates" />
+    <option name="LAST_COMMIT_MESSAGE" value="lots of updates" />
   </component>
 </project>
