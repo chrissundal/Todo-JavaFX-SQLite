@@ -68,19 +68,6 @@ public class ManipulateTasks {
         createRepeatedTasks(task, repeat, repeatNoTimes, description, newDate);
     }
 
-    public Boolean deleteTaskByParentId(String parentId) {
-        try {
-            String query = "DELETE FROM Task WHERE parentId = ?";
-            PreparedStatement pstmt = conn.prepareStatement(query);
-            pstmt.setString(1, parentId);
-            pstmt.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
     public void getAddNewTask(TextField inputDescription, DatePicker inputDate, ChoiceBox<Integer> choiceBox, ChoiceBox<Integer> repeatTimes, Label errorMessage) {
         String description = inputDescription.getText();
         String date = inputDate.getValue().toString();
@@ -101,13 +88,14 @@ public class ManipulateTasks {
     }
     private void createRepeatedTasks(Task task, int repeat, int repeatNoTimes, String description, String startDate) {
         String newDate = startDate;
+        String parentId = task.getId();
         saveTaskToDatabase(task);
 
         for (int i = 1; i < repeatNoTimes; i++) {
             newDate = LocalDate.parse(newDate).plusDays(repeat).toString();
             String newDescription = description + " (" + i + ")";
             String newId = UUID.randomUUID().toString();
-            Task repeatedTask = new Task(newId, newDescription, newDate, 0, newDate, 0, false, 0, false,task.getId(),true);
+            Task repeatedTask = new Task(newId, newDescription, newDate, 0, newDate, 0, false, 0, false,parentId,true);
             saveTaskToDatabase(repeatedTask);
         }
     }
@@ -175,6 +163,18 @@ public class ManipulateTasks {
             e.printStackTrace();
         }
     }
+    public Boolean deleteTaskByParentId(String parentId) {
+        try {
+            String query = "DELETE FROM Task WHERE parentId = ?";
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            pstmt.setString(1, parentId);
+            pstmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
     public void updateTaskInDatabase(Task task) {
         try {
             String query = "UPDATE Task SET description = ?, date = ?, streak = ?, dateLast = ?, repeat = ?, mainTask = ?, repeatTimes = ?, done = ?, parentId = ?, repeatable = ? WHERE id = ?";
@@ -209,7 +209,7 @@ public class ManipulateTasks {
             pstmt.setBoolean(7, task.getMainTask());
             pstmt.setInt(8, task.getRepeatTimes());
             pstmt.setBoolean(9, task.getDone());
-            pstmt.setString(10, task.getId());
+            pstmt.setString(10, task.getParentId());
             pstmt.setBoolean(11, task.getRepeatable());
             pstmt.executeUpdate();
         } catch (SQLException e) {
