@@ -2,8 +2,9 @@
 
 .root {
     -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
+    -fx-alignment: center;
 
+}
 
 .button {
     -fx-background-color: #3A3A3A;
@@ -36,10 +37,12 @@
 .table-view {
     -fx-table-cell-border-color: transparent;
     -fx-padding: 10;
+    -fx-font-family: 'agency fb';
 }
 
 .table-view .column-header-background {
     -fx-background-color: #3A3A3A;
+    -fx-font-size: 16px;
 }
 
 .table-view .column-header, .table-view .column-header * {
@@ -50,7 +53,7 @@
 .table-view .cell {
     -fx-alignment: center;
     -fx-text-fill: #333;
-    -fx-font-size: 14px;
+    -fx-font-size: 16px;
 }
 
 .hbox, .vbox {

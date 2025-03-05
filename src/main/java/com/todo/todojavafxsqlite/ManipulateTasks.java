@@ -14,6 +14,7 @@ public class ManipulateTasks {
     private ObservableList<Task> doneTasksList = FXCollections.observableArrayList();
     private ObservableList<Task> ongoingTasksList = FXCollections.observableArrayList();
     private Connection conn;
+    private LocalDate dateNow = LocalDate.now();
 
     public Boolean ConnectDb() {
         try {
@@ -62,9 +63,22 @@ public class ManipulateTasks {
         int repeat = selectedTask.getRepeatValue();
         Integer repeatNoTimes = selectedTask.getRepeatTimes();
         String taskId = selectedTask.getId();
-        Task task = new Task(taskId, description, newDate, selectedTask.getStreakValue(), newDate, repeat, true, repeatNoTimes, false,taskId);
-        deleteTaskFromDatabase(selectedTask);
+        Task task = new Task(taskId, description, newDate, selectedTask.getStreakValue(), newDate, repeat, true, repeatNoTimes, false, taskId, selectedTask.getRepeatable());
+        deleteTaskByParentId(selectedTask.getParentId());
         createRepeatedTasks(task, repeat, repeatNoTimes, description, newDate);
+    }
+
+    public Boolean deleteTaskByParentId(String parentId) {
+        try {
+            String query = "DELETE FROM Task WHERE parentId = ?";
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            pstmt.setString(1, parentId);
+            pstmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public void getAddNewTask(TextField inputDescription, DatePicker inputDate, ChoiceBox<Integer> choiceBox, ChoiceBox<Integer> repeatTimes, Label errorMessage) {
@@ -76,8 +90,13 @@ public class ManipulateTasks {
             errorMessage.setText("Dato må være etter dagens dato");
             return;
         }
+        Boolean repeatable = false;
+        if(repeatTimes.getValue() > 0) {
+            repeatable = true;
+        }
+        System.out.println(repeatable);
         String taskId = UUID.randomUUID().toString();
-        Task task = new Task(taskId, description, date, 0, date, repeat, true, repeatNoTimes, false, taskId);
+        Task task = new Task(taskId, description, date, 0, date, repeat, true, repeatNoTimes, false, taskId, repeatable);
         createRepeatedTasks(task, repeat, repeatNoTimes, description, date);
     }
     private void createRepeatedTasks(Task task, int repeat, int repeatNoTimes, String description, String startDate) {
@@ -88,12 +107,11 @@ public class ManipulateTasks {
             newDate = LocalDate.parse(newDate).plusDays(repeat).toString();
             String newDescription = description + " (" + i + ")";
             String newId = UUID.randomUUID().toString();
-            Task repeatedTask = new Task(newId, newDescription, newDate, 0, newDate, 0, false, 0, false,task.getId());
+            Task repeatedTask = new Task(newId, newDescription, newDate, 0, newDate, 0, false, 0, false,task.getId(),true);
             saveTaskToDatabase(repeatedTask);
         }
     }
-    public void updateStreak(Task selectedTask, Label streakField, VBox streakPopup, VBox vboxAdd, HBox vboxFront) {
-        LocalDate dateNow = LocalDate.now();
+    public void updateStreak(Task selectedTask, Label streakField, VBox streakPopup, VBox vboxAdd, HBox vboxFront, Controller controller) {
         String parentId = selectedTask.getParentId();
         Task foundTask = doneTasksList.stream()
                 .filter(task -> task.getId().equals(parentId))
@@ -125,6 +143,7 @@ public class ManipulateTasks {
                 vboxFront.setVisible(false);
             }
         }
+        controller.fetchTasks();
     }
     public void fetchData() {
         try {
@@ -133,7 +152,6 @@ public class ManipulateTasks {
             ResultSet rs = stmt.executeQuery(query);
             doneTasksList.clear();
             ongoingTasksList.clear();
-
             while (rs.next()) {
                 String id = rs.getString("id");
                 String description = rs.getString("description");
@@ -145,8 +163,9 @@ public class ManipulateTasks {
                 int repeatTimes = rs.getInt("repeatTimes");
                 boolean done = rs.getBoolean("done");
                 String parentId = rs.getString("parentId");
-                Task task = new Task(id, description, date, streak, dateLast, repeat, mainTask, repeatTimes, done, parentId);
-                if (task.getDone() && task.getMainTask()) {
+                Boolean repeatable = rs.getBoolean("repeatable");
+                Task task = new Task(id, description, date, streak, dateLast, repeat, mainTask, repeatTimes, done, parentId, repeatable);
+                if (task.getDone()) {
                     doneTasksList.add(task);
                 } else if (!task.getDone()) {
                     ongoingTasksList.add(task);
@@ -158,7 +177,7 @@ public class ManipulateTasks {
     }
     public void updateTaskInDatabase(Task task) {
         try {
-            String query = "UPDATE Task SET description = ?, date = ?, streak = ?, dateLast = ?, repeat = ?, mainTask = ?, repeatTimes = ?, done = ?, parentId = ? WHERE id = ?";
+            String query = "UPDATE Task SET description = ?, date = ?, streak = ?, dateLast = ?, repeat = ?, mainTask = ?, repeatTimes = ?, done = ?, parentId = ?, repeatable = ? WHERE id = ?";
             PreparedStatement pstmt = conn.prepareStatement(query);
             pstmt.setString(1, task.getDescription());
             pstmt.setString(2, task.getTaskDate());
@@ -169,7 +188,8 @@ public class ManipulateTasks {
             pstmt.setInt(7, task.getRepeatTimes());
             pstmt.setBoolean(8, task.getDone());
             pstmt.setString(9, task.getParentId());
-            pstmt.setString(10, task.getId());
+            pstmt.setBoolean(10, task.getRepeatable());
+            pstmt.setString(11, task.getId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -178,7 +198,7 @@ public class ManipulateTasks {
 
     private void saveTaskToDatabase(Task task) {
         try {
-            String query = "INSERT INTO Task (id, description, date, streak, dateLast, repeat, mainTask, repeatTimes, done, parentId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO Task (id, description, date, streak, dateLast, repeat, mainTask, repeatTimes, done, parentId, repeatable) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement pstmt = conn.prepareStatement(query);
             pstmt.setString(1, task.getId());
             pstmt.setString(2, task.getDescription());
@@ -189,7 +209,8 @@ public class ManipulateTasks {
             pstmt.setBoolean(7, task.getMainTask());
             pstmt.setInt(8, task.getRepeatTimes());
             pstmt.setBoolean(9, task.getDone());
-            pstmt.setString(10, task.getParentId());
+            pstmt.setString(10, task.getId());
+            pstmt.setBoolean(11, task.getRepeatable());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

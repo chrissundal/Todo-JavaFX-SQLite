@@ -4,16 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="285b2e60-314b-4f1b-990e-56f200f12406" name="Changes" comment="lots of updates">
-      <change afterPath="$PROJECT_DIR$/.idea/DatabaseToolSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/aws.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/todo/todojavafxsqlite/ManipulateTasks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="285b2e60-314b-4f1b-990e-56f200f12406" name="Changes" comment="update sqlite and lots of work">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/todo/todojavafxsqlite/task.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskDB.db" beforeDir="false" afterPath="$PROJECT_DIR$/TaskDB.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/todo/todojavafxsqlite/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todo/todojavafxsqlite/App.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/todo/todojavafxsqlite/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todo/todojavafxsqlite/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todo/todojavafxsqlite/ManipulateTasks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todo/todojavafxsqlite/ManipulateTasks.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/todo/todojavafxsqlite/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todo/todojavafxsqlite/Task.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todo/todojavafxsqlite/desktop.ini" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/todo/todojavafxsqlite/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/todo/todojavafxsqlite/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/todo/todojavafxsqlite/view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/todo/todojavafxsqlite/view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -65,14 +65,16 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "com.codeium.enabled": "true",
+    "dart.analysis.tool.window.visible": "false",
     "git-widget-placeholder": "master",
+    "ignore.preview.features.used": "true",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.4827586",
-    "settings.editor.selected.configurable": "com.database.db.setting.configurable"
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "show.migrate.to.gradle.popup": "false"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -103,12 +105,20 @@
       <option name="presentableId" value="LOCAL−00002" />
       <updated>1741033545265</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL−00003" summary="update sqlite and lots of work">
+      <option name="closed" value="true" />
+      <created>1741110721086</created>
+      <option name="number" value="LOCAL−00003" />
+      <option name="presentableId" value="LOCAL−00003" />
+      <updated>1741110721086</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="made a simple layout" />
     <MESSAGE value="lots of updates" />
-    <option name="LAST_COMMIT_MESSAGE" value="lots of updates" />
+    <MESSAGE value="update sqlite and lots of work" />
+    <option name="LAST_COMMIT_MESSAGE" value="update sqlite and lots of work" />
   </component>
 </project>

@@ -1,11 +1,19 @@
 package com.todo.todojavafxsqlite;
 
 import javafx.animation.AnimationTimer;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Date;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 public class Controller {
 
@@ -27,9 +35,43 @@ public class Controller {
     @FXML private TableColumn<Task, String> tableRepeatDone;
     @FXML private Label streakField;
     @FXML private VBox streakPopup;
+    @FXML private ProgressBar progressBar;
+    @FXML private Label statusMessage;
+    @FXML private VBox repeatTaskCheckboxVbox;
+    @FXML private HBox repeatTaskHbox;
+    @FXML private CheckBox repeatTaskCheckbox;
 
     private final ManipulateTasks manipulateTasks = new ManipulateTasks();
 
+    @FXML
+    void initialize() {
+        tableDate.setCellValueFactory(cellData -> new SimpleStringProperty(
+                LocalDate.parse(cellData.getValue().dateProperty().get())
+                        .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG).withLocale(Locale.getDefault()))
+        ));
+        tableDescription.setCellValueFactory(cellData -> cellData.getValue().descriptionProperty());
+        tableRepeat.setCellValueFactory(cellData -> cellData.getValue().repeatProperty().asString());
+        tableRepeatDone.setCellValueFactory(cellData -> cellData.getValue().repeatProperty().asString());
+        tableDateDone.setCellValueFactory(cellData -> new SimpleStringProperty(
+                LocalDate.parse(cellData.getValue().dateProperty().get())
+                        .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG).withLocale(Locale.getDefault()))
+        ));
+        tableDescriptionDone.setCellValueFactory(cellData -> cellData.getValue().descriptionProperty());
+        choiceBox.getItems().addAll(0,1,2,7,30);
+        repeatTimes.getItems().addAll(0,2,5,10,52,100);
+        choiceBox.setValue(0);
+        repeatTimes.setValue(0);
+        startClock();
+        connectToDatabase();
+        fetchTasks();
+    }
+
+    @FXML
+    void repeatTaskCheckbox() {
+        repeatTaskHbox.setVisible(true);
+        repeatTaskCheckboxVbox.setVisible(false);
+
+    }
     @FXML
     void closeStreakMessage() {
         closeTaskWindow();
@@ -70,33 +112,10 @@ public class Controller {
     void doneTask() {
         Task selectedTask = TableViewTask.getSelectionModel().getSelectedItem();
         if (selectedTask == null) return;
-        if(selectedTask.getMainTask()) {
-            selectedTask.setDone(true);
-            manipulateTasks.updateTaskInDatabase(selectedTask);
-            fetchTasks();
-            manipulateTasks.updateStreak(selectedTask, streakField, streakPopup, vboxAdd, vboxFront);
-        } else {
-            manipulateTasks.updateStreak(selectedTask, streakField, streakPopup, vboxAdd, vboxFront);
-            manipulateTasks.deleteTaskFromDatabase(selectedTask);
-        }
+        selectedTask.setDone(true);
+        manipulateTasks.updateTaskInDatabase(selectedTask);
         fetchTasks();
-    }
-
-    @FXML
-    void initialize() {
-        tableDate.setCellValueFactory(cellData -> cellData.getValue().dateProperty());
-        tableDescription.setCellValueFactory(cellData -> cellData.getValue().descriptionProperty());
-        tableRepeat.setCellValueFactory(cellData -> cellData.getValue().repeatProperty().asString());
-        tableRepeatDone.setCellValueFactory(cellData -> cellData.getValue().repeatProperty().asString());
-        tableDateDone.setCellValueFactory(cellData -> cellData.getValue().dateProperty());
-        tableDescriptionDone.setCellValueFactory(cellData -> cellData.getValue().descriptionProperty());
-        choiceBox.getItems().addAll(0,1,2,7,30);
-        repeatTimes.getItems().addAll(0,2,5,10,52,100);
-        choiceBox.setValue(0);
-        repeatTimes.setValue(0);
-        startClock();
-        connectToDatabase();
-        fetchTasks();
+        manipulateTasks.updateStreak(selectedTask, streakField, streakPopup, vboxAdd, vboxFront,this);
     }
 
     @FXML
@@ -113,6 +132,18 @@ public class Controller {
         errorMessage.setText("");
         vboxAdd.setVisible(true);
         vboxFront.setVisible(false);
+        repeatTaskHbox.setVisible(false);
+        repeatTaskCheckboxVbox.setVisible(true);
+        repeatTaskCheckbox.setSelected(false);
+    }
+    @FXML
+    void deleteDone() {
+        Task selectedTask = TableViewTaskDone.getSelectionModel().getSelectedItem();
+        if (selectedTask == null) return;
+        if(manipulateTasks.deleteTaskByParentId(selectedTask.getParentId())){
+            errorMessage.setText("Oppgave slettet");
+        }
+        fetchTasks();
     }
     private void connectToDatabase() {
         if(manipulateTasks.ConnectDb()){
@@ -126,8 +157,32 @@ public class Controller {
         TableViewTaskDone.getItems().clear();
         manipulateTasks.fetchData();
         manipulateTasks.testLists();
-        TableViewTask.setItems(manipulateTasks.getOngoingTasksList());
-        TableViewTaskDone.setItems(manipulateTasks.getDoneTasksList());
+        Task nextTask = manipulateTasks.getOngoingTasksList().stream()
+                .filter(task -> LocalDate.parse(task.getTaskDate()).isAfter(LocalDate.now()))
+                .findFirst().orElse(null);
+        if (nextTask != null) {
+            LocalDate date = LocalDate.parse(nextTask.getTaskDate());
+            DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG).withLocale(Locale.getDefault());
+            String formattedDate = date.format(formatter);
+            statusMessage.setText("Neste oppgave: " + nextTask.getDescription() + " - " + " Deadline: " + formattedDate);
+        } else {
+            statusMessage.setText("Siste oppgave");
+        }
+
+        ObservableList<Task> ongoingTasksList = FXCollections.observableArrayList(
+                manipulateTasks.getOngoingTasksList().stream()
+                        .filter(task -> LocalDate.parse(task.getTaskDate()).isEqual(LocalDate.now()) || LocalDate.parse(task.getTaskDate()).isBefore(LocalDate.now()))
+                        .collect(Collectors.toList())
+        );
+        TableViewTask.setItems(ongoingTasksList);
+        ObservableList<Task> doneTasksList = FXCollections.observableArrayList(
+            manipulateTasks.getDoneTasksList().stream()
+                .filter(task -> task.getMainTask())
+                .collect(Collectors.toList())
+        );
+        TableViewTaskDone.setItems(doneTasksList);
+        int totalTasks = manipulateTasks.getDoneTasksList().size() + manipulateTasks.getOngoingTasksList().size();
+        progressBar.setProgress((float) manipulateTasks.getDoneTasksList().size() / (float) totalTasks);
     }
     void setCloseConnection() {
         manipulateTasks.closeConnection();

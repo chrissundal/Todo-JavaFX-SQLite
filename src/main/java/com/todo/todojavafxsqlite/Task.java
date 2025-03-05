@@ -13,8 +13,10 @@ public class Task {
     private final IntegerProperty repeatTimes;
     private Boolean done;
     private final String parentId;
+    private LocalDate dateNow = LocalDate.now();
+    private final BooleanProperty repeatable;
 
-    public Task(String id, String description, String date, Integer streak, String dateLast, Integer repeat, Boolean mainTask, Integer repeatTimes, Boolean done, String parentId) {
+    public Task(String id, String description, String date, Integer streak, String dateLast, Integer repeat, Boolean mainTask, Integer repeatTimes, Boolean done, String parentId, Boolean repeatable) {
         this.id = id;
         this.description = new SimpleStringProperty(description);
         this.date = new SimpleStringProperty(date);
@@ -25,6 +27,7 @@ public class Task {
         this.repeatTimes = new SimpleIntegerProperty(repeatTimes);
         this.done = done;
         this.parentId = parentId;
+        this.repeatable = new SimpleBooleanProperty(repeatable);
     }
 
     public String getParentId() {
@@ -36,11 +39,11 @@ public class Task {
     public StringProperty dateProperty() {
         return date;
     }
-    public IntegerProperty repeatProperty() {
-        return repeat;
+    public BooleanProperty repeatProperty() {
+        return repeatable;
     }
+
     public void addStreak() {
-        LocalDate dateNow = LocalDate.now();
         if (streak == 0) {
             streak = 1;
         } else {
@@ -50,7 +53,7 @@ public class Task {
     }
 
     public void printInfo() {
-        System.out.println("id: " + id + " Beskrivelse: " + description.get() + " Deadline: " + date.get() + " Antall streaks: " + streak + " Dato sist ferdig: " + dateLast + " Antall ganger: " + repeat.get() + " Hovedtask: " + mainTask.get());
+        System.out.println("id: " + id + " Beskrivelse: " + description.get() + " Deadline: " + date.get() + " Antall streaks: " + streak + " Dato sist ferdig: " + dateLast + " Antall ganger: " + repeat.get() + " Hovedtask: " + mainTask.get() + " Repeterbar: " + repeatable.get());
     }
 
     public int getRepeatValue() {
@@ -85,6 +88,7 @@ public class Task {
     }
 
     public void resetStreak() {
+        dateLast = dateNow.toString();
         streak = 0;
     }
 
@@ -94,5 +98,9 @@ public class Task {
 
     public void setDone(boolean bool) {
         done = bool;
+    }
+
+    public boolean getRepeatable() {
+        return repeatable.get();
     }
 }
