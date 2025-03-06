@@ -38,21 +38,6 @@ public class ManipulateTasks {
             e.printStackTrace();
         }
     }
-    public void testLists() {
-        System.out.println("Ongoing:");
-        Integer num = 1;
-        for (Task task : ongoingTasksList) {
-            System.out.print(num + ". ");
-            task.printInfo();
-            num++;
-        }
-        System.out.println("Done:");
-        for (Task task : doneTasksList) {
-            System.out.print(num + ". ");
-            task.printInfo();
-            num++;
-        }
-    }
 
     public void getAddFromHistory(TableView<Task> TableViewTaskDone) {
         Task selectedTask = TableViewTaskDone.getSelectionModel().getSelectedItem();
@@ -77,11 +62,7 @@ public class ManipulateTasks {
             errorMessage.setText("Dato må være etter dagens dato");
             return;
         }
-        Boolean repeatable = false;
-        if(repeatTimes.getValue() > 0) {
-            repeatable = true;
-        }
-        System.out.println(repeatable);
+        boolean repeatable = repeatTimes.getValue() > 0;
         String taskId = UUID.randomUUID().toString();
         Task task = new Task(taskId, description, date, 0, date, repeat, true, repeatNoTimes, false, taskId, repeatable);
         createRepeatedTasks(task, repeat, repeatNoTimes, description, date);
@@ -90,13 +71,14 @@ public class ManipulateTasks {
         String newDate = startDate;
         String parentId = task.getId();
         saveTaskToDatabase(task);
-
+        task.printInfo();
         for (int i = 1; i < repeatNoTimes; i++) {
             newDate = LocalDate.parse(newDate).plusDays(repeat).toString();
             String newDescription = description + " (" + i + ")";
             String newId = UUID.randomUUID().toString();
             Task repeatedTask = new Task(newId, newDescription, newDate, 0, newDate, 0, false, 0, false,parentId,true);
             saveTaskToDatabase(repeatedTask);
+            repeatedTask.printInfo();
         }
     }
     public void updateStreak(Task selectedTask, Label streakField, VBox streakPopup, VBox vboxAdd, HBox vboxFront, Controller controller) {

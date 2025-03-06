@@ -1,6 +1,7 @@
 package com.todo.todojavafxsqlite;
 
 import javafx.animation.AnimationTimer;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,6 +14,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.stream.Collectors;
 
 public class Controller {
@@ -70,7 +73,6 @@ public class Controller {
     void repeatTaskCheckbox() {
         repeatTaskHbox.setVisible(true);
         repeatTaskCheckboxVbox.setVisible(false);
-
     }
     @FXML
     void closeStreakMessage() {
@@ -92,15 +94,15 @@ public class Controller {
     @FXML
     void addNewTask() {
         if(inputDate.getValue() == null && inputDescription.getText().isEmpty()) {
-            errorMessage.setText("Vennligst skriv beskrivelse og velg dato");
+            setErrorMessageText("Vennligst skriv beskrivelse og velg dato");
             return;
         }
         if(inputDate.getValue() == null) {
-            errorMessage.setText("Vennligst velg dato");
+            setErrorMessageText("Vennligst velg dato");
             return;
         }
         if (inputDescription.getText().isEmpty()) {
-            errorMessage.setText("Vennligst skriv beskrivelse");
+            setErrorMessageText("Vennligst skriv beskrivelse");
             return;
         }
         manipulateTasks.getAddNewTask(inputDescription, inputDate, choiceBox, repeatTimes, errorMessage);
@@ -141,7 +143,7 @@ public class Controller {
         Task selectedTask = TableViewTaskDone.getSelectionModel().getSelectedItem();
         if (selectedTask == null) return;
         if(manipulateTasks.deleteTaskByParentId(selectedTask.getParentId())){
-            errorMessage.setText("Oppgave slettet");
+            setErrorMessageText("Oppgave slettet");
         }
         fetchTasks();
     }
@@ -156,7 +158,6 @@ public class Controller {
         TableViewTask.getItems().clear();
         TableViewTaskDone.getItems().clear();
         manipulateTasks.fetchData();
-        manipulateTasks.testLists();
         Task nextTask = manipulateTasks.getOngoingTasksList().stream()
                 .filter(task -> LocalDate.parse(task.getTaskDate()).isAfter(LocalDate.now()))
                 .findFirst().orElse(null);
@@ -166,7 +167,7 @@ public class Controller {
             String formattedDate = date.format(formatter);
             statusMessage.setText("Neste oppgave: " + nextTask.getDescription() + " - " + " Deadline: " + formattedDate);
         } else {
-            statusMessage.setText("Siste oppgave");
+            statusMessage.setText("Ingen neste oppgave");
         }
 
         ObservableList<Task> ongoingTasksList = FXCollections.observableArrayList(
@@ -174,12 +175,14 @@ public class Controller {
                         .filter(task -> LocalDate.parse(task.getTaskDate()).isEqual(LocalDate.now()) || LocalDate.parse(task.getTaskDate()).isBefore(LocalDate.now()))
                         .collect(Collectors.toList())
         );
+        ongoingTasksList.sort((a,b) -> LocalDate.parse(a.getTaskDate()).compareTo(LocalDate.parse(b.getTaskDate())));
         TableViewTask.setItems(ongoingTasksList);
         ObservableList<Task> doneTasksList = FXCollections.observableArrayList(
             manipulateTasks.getDoneTasksList().stream()
                 .filter(task -> task.getMainTask())
                 .collect(Collectors.toList())
         );
+        doneTasksList.sort((a,b) -> LocalDate.parse(a.getTaskDate()).compareTo(LocalDate.parse(b.getTaskDate())));
         TableViewTaskDone.setItems(doneTasksList);
         int totalTasks = manipulateTasks.getDoneTasksList().size() + manipulateTasks.getOngoingTasksList().size();
         progressBar.setProgress((float) manipulateTasks.getDoneTasksList().size() / (float) totalTasks);
@@ -195,6 +198,20 @@ public class Controller {
         repeatTimes.setValue(0);
         inputDate.setValue(null);
         inputDescription.setText("");
+    }
+
+    private void setErrorMessageText(String text) {
+        errorMessage.setText(text);
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(() -> {
+                    errorMessage.setText("");
+                    timer.cancel();
+                });
+            }
+        }, 3000);
     }
 
     private void startClock() {

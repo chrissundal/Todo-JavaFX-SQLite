@@ -4,16 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="285b2e60-314b-4f1b-990e-56f200f12406" name="Changes" comment="update sqlite and lots of work">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/todo/todojavafxsqlite/task.png" afterDir="false" />
+    <list default="true" id="285b2e60-314b-4f1b-990e-56f200f12406" name="Changes" comment="fix parentId">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TaskDB.db" beforeDir="false" afterPath="$PROJECT_DIR$/TaskDB.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/todo/todojavafxsqlite/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todo/todojavafxsqlite/App.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/todo/todojavafxsqlite/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todo/todojavafxsqlite/Controller.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/todo/todojavafxsqlite/ManipulateTasks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todo/todojavafxsqlite/ManipulateTasks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/todo/todojavafxsqlite/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todo/todojavafxsqlite/Task.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/todo/todojavafxsqlite/desktop.ini" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/todo/todojavafxsqlite/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/todo/todojavafxsqlite/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/todo/todojavafxsqlite/task.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/todo/todojavafxsqlite/task.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/todo/todojavafxsqlite/view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/todo/todojavafxsqlite/view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -59,24 +57,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.App.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "master",
-    "ignore.preview.features.used": "true",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.4827586",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "show.migrate.to.gradle.popup": "false"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.App.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.preview.features.used&quot;: &quot;true&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.4827586&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\chris\OneDrive\Documents\GitHub\Todo-JavaFX-SQLite\src\main\resources\com\todo\todojavafxsqlite" />
@@ -112,13 +110,29 @@
       <option name="presentableId" value="LOCAL−00003" />
       <updated>1741110721086</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL−00004" summary="added more logic, and styling">
+      <option name="closed" value="true" />
+      <created>1741183473229</created>
+      <option name="number" value="LOCAL−00004" />
+      <option name="presentableId" value="LOCAL−00004" />
+      <updated>1741183473229</updated>
+    </task>
+    <task id="LOCAL−00005" summary="fix parentId">
+      <option name="closed" value="true" />
+      <created>1741187765843</created>
+      <option name="number" value="LOCAL−00005" />
+      <option name="presentableId" value="LOCAL−00005" />
+      <updated>1741187765843</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="made a simple layout" />
     <MESSAGE value="lots of updates" />
     <MESSAGE value="update sqlite and lots of work" />
-    <option name="LAST_COMMIT_MESSAGE" value="update sqlite and lots of work" />
+    <MESSAGE value="added more logic, and styling" />
+    <MESSAGE value="fix parentId" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix parentId" />
   </component>
 </project>

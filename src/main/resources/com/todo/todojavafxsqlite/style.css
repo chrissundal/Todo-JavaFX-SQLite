@@ -1,9 +1,9 @@
 ﻿/* style.css */
 
 .root {
-    -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    -fx-font-family: 'agency fb';
     -fx-alignment: center;
-
+    -fx-font-size: 16px;
 }
 
 .button {
