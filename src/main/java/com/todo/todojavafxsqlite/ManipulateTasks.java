@@ -17,8 +17,10 @@ public class ManipulateTasks {
     private LocalDate dateNow = LocalDate.now();
 
     public Boolean ConnectDb() {
+        // connect to sqlite
         try {
             if (conn == null || conn.isClosed()) {
+                // Using the SQLite JDBC driver
                 conn = DriverManager.getConnection("jdbc:sqlite:TaskDB.db");
                 return true;
             }
@@ -29,6 +31,7 @@ public class ManipulateTasks {
     }
 
     public void closeConnection() {
+        // close connection
         try {
             if (conn != null && !conn.isClosed()) {
                 conn.close();
@@ -40,74 +43,95 @@ public class ManipulateTasks {
     }
 
     public void getAddFromHistory(TableView<Task> TableViewTaskDone) {
+        // Add from done tasks
         Task selectedTask = TableViewTaskDone.getSelectionModel().getSelectedItem();
         if (selectedTask == null) return;
 
         String description = selectedTask.getDescription();
+        // add 7 days
         String newDate = LocalDate.now().plusDays(7).toString();
         int repeat = selectedTask.getRepeatValue();
         Integer repeatNoTimes = selectedTask.getRepeatTimes();
         String taskId = selectedTask.getId();
         Task task = new Task(taskId, description, newDate, selectedTask.getStreakValue(), newDate, repeat, true, repeatNoTimes, false, taskId, selectedTask.getRepeatable());
+        // delete the old task
         deleteTaskByParentId(selectedTask.getParentId());
+        // save the task and create repeated tasks if there are any
         createRepeatedTasks(task, repeat, repeatNoTimes, description, newDate);
     }
 
-    public void getAddNewTask(TextField inputDescription, DatePicker inputDate, ChoiceBox<Integer> choiceBox, ChoiceBox<Integer> repeatTimes, Label errorMessage) {
+    public void getAddNewTask(TextField inputDescription, DatePicker inputDate, ChoiceBox<Integer> choiceBox, ChoiceBox<Integer> repeatTimes) {
+        // Add new tasks
         String description = inputDescription.getText();
         String date = inputDate.getValue().toString();
         Integer repeatNoTimes = repeatTimes.getValue();
         Integer repeat = choiceBox.getValue();
-        if (LocalDate.parse(date).isBefore(LocalDate.now())) {
-            errorMessage.setText("Dato må være etter dagens dato");
-            return;
-        }
+        // check if task is repeatable
         boolean repeatable = repeatTimes.getValue() > 0;
+        // generate a new id
         String taskId = UUID.randomUUID().toString();
         Task task = new Task(taskId, description, date, 0, date, repeat, true, repeatNoTimes, false, taskId, repeatable);
+        // save the task and create repeated tasks if there are any
         createRepeatedTasks(task, repeat, repeatNoTimes, description, date);
     }
     private void createRepeatedTasks(Task task, int repeat, int repeatNoTimes, String description, String startDate) {
+        // Add repeating tasks
         String newDate = startDate;
         String parentId = task.getId();
+        // save the parent to SQLite
         saveTaskToDatabase(task);
         task.printInfo();
+        // loop the tasks as many times as inputted
         for (int i = 1; i < repeatNoTimes; i++) {
+            // add days between tasks
             newDate = LocalDate.parse(newDate).plusDays(repeat).toString();
+            // sets a new description and add a index number after
             String newDescription = description + " (" + i + ")";
+            // generate a new id
             String newId = UUID.randomUUID().toString();
+            // sets the task object
             Task repeatedTask = new Task(newId, newDescription, newDate, 0, newDate, 0, false, 0, false,parentId,true);
+            // save the child elements to SQLite
             saveTaskToDatabase(repeatedTask);
             repeatedTask.printInfo();
         }
     }
     public void updateStreak(Task selectedTask, Label streakField, VBox streakPopup, VBox vboxAdd, HBox vboxFront, Controller controller) {
+        // update the streak
         String parentId = selectedTask.getParentId();
+        // find the task with the parentId and update streak-counter or if too late it will reset
         Task foundTask = doneTasksList.stream()
                 .filter(task -> task.getId().equals(parentId))
                 .findFirst()
                 .orElse(null);
         if (foundTask != null) {
+            // get the last date and convert to LocalDate
             String dateLast = foundTask.getDateLast();
             LocalDate lastDate = LocalDate.parse(dateLast);
+            // checks if the date is too late
             if (dateNow.isAfter(lastDate)) {
+                // reset the streak
                 foundTask.resetStreak();
+                // update the database
                 updateTaskInDatabase(foundTask);
                 System.out.println("Du var for sent ute");
             } else {
+                // add to the streak
                 foundTask.addStreak();
+                // update the database
                 updateTaskInDatabase(foundTask);
                 System.out.println("Oppdatert streak:" + foundTask.getStreakValue());
             }
         } else {
             System.out.println("Fant ikke oppgave");
         }
-
+        // sets milestones after an amount of streaks
         Integer streak = foundTask != null ? foundTask.getStreakValue() : null;
         if (streak != null) {
             Set<Integer> streakMilestones = Set.of(3, 5, 10, 15, 20, 25, 30);
             if (streakMilestones.contains(streak)) {
                 streakField.setText(streak.toString());
+                // set next view
                 streakPopup.setVisible(true);
                 vboxAdd.setVisible(false);
                 vboxFront.setVisible(false);
@@ -116,12 +140,15 @@ public class ManipulateTasks {
         controller.fetchTasks();
     }
     public void fetchData() {
+        // fetch the tasks
         try {
             String query = "SELECT * FROM Task";
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
+            // clear lists of previous data
             doneTasksList.clear();
             ongoingTasksList.clear();
+            // while loop to add tasks
             while (rs.next()) {
                 String id = rs.getString("id");
                 String description = rs.getString("description");
@@ -134,7 +161,9 @@ public class ManipulateTasks {
                 boolean done = rs.getBoolean("done");
                 String parentId = rs.getString("parentId");
                 Boolean repeatable = rs.getBoolean("repeatable");
+                // gets a task
                 Task task = new Task(id, description, date, streak, dateLast, repeat, mainTask, repeatTimes, done, parentId, repeatable);
+                // add task and sort it into different lists
                 if (task.getDone()) {
                     doneTasksList.add(task);
                 } else if (!task.getDone()) {
@@ -145,21 +174,12 @@ public class ManipulateTasks {
             e.printStackTrace();
         }
     }
-    public Boolean deleteTaskByParentId(String parentId) {
-        try {
-            String query = "DELETE FROM Task WHERE parentId = ?";
-            PreparedStatement pstmt = conn.prepareStatement(query);
-            pstmt.setString(1, parentId);
-            pstmt.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
+
     public void updateTaskInDatabase(Task task) {
+        // update task in SQLite
         try {
             String query = "UPDATE Task SET description = ?, date = ?, streak = ?, dateLast = ?, repeat = ?, mainTask = ?, repeatTimes = ?, done = ?, parentId = ?, repeatable = ? WHERE id = ?";
+            // "?" is placeholder, need to set index below, what type and what property
             PreparedStatement pstmt = conn.prepareStatement(query);
             pstmt.setString(1, task.getDescription());
             pstmt.setString(2, task.getTaskDate());
@@ -179,6 +199,7 @@ public class ManipulateTasks {
     }
 
     private void saveTaskToDatabase(Task task) {
+        // save a new task to the database, same here: "?" is placeholder
         try {
             String query = "INSERT INTO Task (id, description, date, streak, dateLast, repeat, mainTask, repeatTimes, done, parentId, repeatable) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement pstmt = conn.prepareStatement(query);
@@ -199,7 +220,22 @@ public class ManipulateTasks {
         }
     }
 
+    public Boolean deleteTaskByParentId(String parentId) {
+        // delete task based on parentId, needed to delete all tasks with that parentId like repeating tasks
+        try {
+            String query = "DELETE FROM Task WHERE parentId = ?";
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            pstmt.setString(1, parentId);
+            pstmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public void deleteTaskFromDatabase(Task task) {
+        // delete a single task from SQLite from id
         try {
             String query = "DELETE FROM Task WHERE id = ?";
             PreparedStatement pstmt = conn.prepareStatement(query);

@@ -13,7 +13,6 @@ public class Task {
     private final IntegerProperty repeatTimes;
     private Boolean done;
     private final String parentId;
-    private LocalDate dateNow = LocalDate.now();
     private final BooleanProperty repeatable;
 
     public Task(String id, String description, String date, Integer streak, String dateLast, Integer repeat, Boolean mainTask, Integer repeatTimes, Boolean done, String parentId, Boolean repeatable) {
@@ -44,12 +43,8 @@ public class Task {
     }
 
     public void addStreak() {
-        if (streak == 0) {
-            streak = 1;
-        } else {
-            streak += 1;
-        }
-        dateLast = dateNow.toString();
+        streak += 1;
+        dateLast = LocalDate.now().toString();
     }
 
     public void printInfo() {
@@ -88,7 +83,7 @@ public class Task {
     }
 
     public void resetStreak() {
-        dateLast = dateNow.toString();
+        dateLast = LocalDate.now().toString();
         streak = 0;
     }
 

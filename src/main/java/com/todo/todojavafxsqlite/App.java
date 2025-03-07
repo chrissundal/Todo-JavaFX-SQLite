@@ -20,7 +20,7 @@ public class App extends Application {
         stage.show();
         controller = fxmlLoader.getController();
     }
-
+    // stop the database connection when the application is closed
     @Override
     public void stop() throws Exception {
         if (controller != null) {

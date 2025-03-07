@@ -5,14 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="285b2e60-314b-4f1b-990e-56f200f12406" name="Changes" comment="fix parentId">
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/todo/todojavafxsqlite/screenshots/screenshot1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/todo/todojavafxsqlite/screenshots/screenshot2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/todo/todojavafxsqlite/screenshots/screenshot3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/todo/todojavafxsqlite/screenshots/screenshot4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/todo/todojavafxsqlite/screenshots/screenshot5.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TaskDB.db" beforeDir="false" afterPath="$PROJECT_DIR$/TaskDB.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todo/todojavafxsqlite/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todo/todojavafxsqlite/App.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/todo/todojavafxsqlite/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todo/todojavafxsqlite/Controller.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/todo/todojavafxsqlite/ManipulateTasks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todo/todojavafxsqlite/ManipulateTasks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/todo/todojavafxsqlite/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/todo/todojavafxsqlite/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/todo/todojavafxsqlite/task.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/todo/todojavafxsqlite/task.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/todo/todojavafxsqlite/view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/todo/todojavafxsqlite/view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todo/todojavafxsqlite/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todo/todojavafxsqlite/Task.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,26 +61,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.App.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;ignore.preview.features.used&quot;: &quot;true&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.4827586&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.App.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "com.codeium.enabled": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "master",
+    "ignore.preview.features.used": "true",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/chris/OneDrive/Documents/GitHub/Todo-JavaFX-SQLite",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.4827586",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "show.migrate.to.gradle.popup": "false"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\chris\OneDrive\Documents\GitHub\Todo-JavaFX-SQLite\src\main\resources\com\todo\todojavafxsqlite\screenshots" />
       <recent name="C:\Users\chris\OneDrive\Documents\GitHub\Todo-JavaFX-SQLite\src\main\resources\com\todo\todojavafxsqlite" />
     </key>
   </component>
