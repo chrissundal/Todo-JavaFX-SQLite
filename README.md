@@ -1,10 +1,10 @@
 ﻿# Todo JavaFX SQLite
-=======================
+
 
 A JavaFX-based Todo List application that uses SQLite as its database.
 
 ## Table of Contents
------------------
+
 
 * [Overview](#overview)
 * [Technologies Used](#technologies-used)
@@ -16,19 +16,19 @@ A JavaFX-based Todo List application that uses SQLite as its database.
 
 
 ## Overview
-------------
+
 
 This application allows users to create, read, update, and delete (CRUD) todo tasks. It features a simple and intuitive interface built with JavaFX, and stores data in a SQLite database.
 
 ## Technologies Used
---------------------
+
 
 * JavaFX for the graphical user interface
 * SQLite for data storage
 * Java 8 or later for development
 
 ## Screenshots
----------------
+
 
 ### Main screen
 ![Screenshot 1](/src/main/resources/com/todo/todojavafxsqlite/screenshots/screenshot1.png)
@@ -48,7 +48,7 @@ This application allows users to create, read, update, and delete (CRUD) todo ta
 
 
 ## Features
-------------
+
 
 | Feature                | Description                                                                            |
 |------------------------|----------------------------------------------------------------------------------------|
@@ -60,7 +60,7 @@ This application allows users to create, read, update, and delete (CRUD) todo ta
 
 
 ## Classes and Files
----------------------
+
 
 | File                   | Description                                                                          |
 |------------------------|--------------------------------------------------------------------------------------|
@@ -72,7 +72,7 @@ This application allows users to create, read, update, and delete (CRUD) todo ta
 | `TaskDB.db`            | SQLite database file for storing task data                                           |
 
 ## Acknowledgments
-------------------
+
 
 I would like to thank the OpenJFX team for their hard work and dedication to creating and maintaining the JavaFX library, which was used extensively in this project. Their efforts have made it possible for me to build a high-quality and visually appealing GUI application.
 
@@ -83,7 +83,7 @@ I would like to thank the OpenJFX team for their hard work and dedication to cre
 * [SQLite Xerial JDBC](https://github.com/xerial/sqlite-jdbc)
 
 ## Getting Started
--------------------
+
 
 ### Prerequisites
 
